@@ -1,6 +1,4 @@
 
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const User = require('../model/User'); // Giả sử bạn có model User
 
 class UserRepository {
