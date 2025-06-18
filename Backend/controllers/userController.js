@@ -90,7 +90,6 @@ class UserController {
                     message: 'Email và mật khẩu là bắt buộc'
                 });
             }
-
             // Validate email format
             const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
             if (!emailRegex.test(email)) {
