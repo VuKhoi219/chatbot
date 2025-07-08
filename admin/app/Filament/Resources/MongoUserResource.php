@@ -122,7 +122,7 @@ class MongoUserResource extends Resource
     {
         return [
             'index' => Pages\ListMongoUsers::route('/'),
-            'create' => Pages\CreateMongoUser::route('/create'),
+            // 'create' => Pages\CreateMongoUser::route('/create'),
             'edit' => Pages\EditMongoUser::route('/{record}/edit'),
         ];
     }
