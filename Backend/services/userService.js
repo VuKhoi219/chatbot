@@ -1,15 +1,15 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const userRepository = require('../repository/userRepository'); // Giả sử bạn có model User
+const userRepository = require('../repository/userRepository');
 
 class UserService {
 
     async register(userData) {
         try {
-            const { email, password, name, age, gender } = userData;
+            const { email, password, name, age, gender, role } = userData;
             const hashedPassword = bcrypt.hashSync(password, 10);
-            const result = await userRepository.register({ email, hashedPassword, name, age, gender });
+            const result = await userRepository.register({ email, hashedPassword, name, age, gender, role });
             return result;
         } catch (error) {
             console.log(error);
@@ -29,7 +29,6 @@ class UserService {
             if (!result.success) {
                 return result
             }
-            console.log(result)
             // Kiểm tra mật khẩu
             const isPasswordValid = await bcrypt.compare(password, result.user.hashedPassword);
             if (!isPasswordValid) {
@@ -45,7 +44,8 @@ class UserService {
                     userId: result.user._id, 
                     email: result.user.email,
                     age: result.user.age,
-                    gender: result.user.gender
+                    gender: result.user.gender,
+                    role:result.user.role
                 },
                 process.env.JWT_SECRET || 'your-secret-key',
                 { expiresIn: '24h' }

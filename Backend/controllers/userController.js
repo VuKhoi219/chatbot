@@ -4,7 +4,7 @@ class UserController {
     
     async register(req, res) {
         try {
-            const { email, password, name, age, gender } = req.body;
+            const { email, password, name, age, gender, role } = req.body;
 
             // Validate required fields
             if (!email || !password || !name) {
@@ -47,7 +47,7 @@ class UserController {
                 });
             }
 
-            const userData = { email, password, name, age, gender };
+            const userData = { email, password, name, age, gender, role };
             const result = await userService.register(userData);
 
             if (result.success) {

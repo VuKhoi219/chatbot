@@ -5,7 +5,7 @@ class UserRepository {
 
     async register(userData) {
         try {
-            const { email, hashedPassword, name, age, gender } = userData;
+            const { email, hashedPassword, name, age, gender, role } = userData;
 
             // Kiểm tra email đã tồn tại chưa
             const existingUser = await User.findOne({ email });
@@ -23,6 +23,7 @@ class UserRepository {
                 name,
                 age,
                 gender,
+                role,
                 createdAt: new Date()
             });
 
