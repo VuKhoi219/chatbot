@@ -10,6 +10,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const conversationRouter = require("./routes/conversationRoutes");
 const chatRouter = require("./routes/chatRoutes");
 const musicRoute = require("./routes/musicRoute");
+const podcastRoute = require("./routes/podcastRoutes");
 const documentRoutes = require("./routes/documentRoutes");
 app.use(express.json());
 app.use(bodyParser.json());
@@ -25,7 +26,9 @@ app.use("/api/conversations", conversationRouter); // Sửa từ /api/conversati
 app.use("/api/chat", chatRouter);
 app.use("/api/documents", documentRoutes);
 app.use("/api/musics", musicRoute); // => /api/musics
-app.use("/uploads", express.static(path.join(__dirname, "../uploadMusic")));
+app.use("/api/podcasts", podcastRoute);
+app.use("/music", express.static(path.join(__dirname, "../uploadMusic")));
+app.use("/podcast", express.static(path.join(__dirname, "../uploadPodcast")));
 
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");

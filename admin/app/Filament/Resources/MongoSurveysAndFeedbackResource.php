@@ -60,7 +60,7 @@ class MongoSurveysAndFeedbackResource extends Resource
                     ->label('Link khảo sát')
                     ->url(fn ($record) => $record->link)
                     ->openUrlInNewTab()
-                    ->copyable(),
+                    ->copyable()->limit(20),
             ])
             ->filters([])
             ->actions([

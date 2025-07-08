@@ -1,3 +1,4 @@
+import { Podcast } from './../components/custom/podcast';
 import { ApiResponse } from './type';
 
 export interface User {
@@ -96,5 +97,21 @@ export interface GetAllMusics {
     success: boolean;
     data: {
       data: Music[];
+    };
+}
+  
+export interface Podcast {
+    _id: string;
+    title: string;
+    duration: string;
+    file_url: string;
+    description: string;
+  }
+  
+  // Cập nhật interface để phù hợp với API response thực tế
+export interface GetAllPodcasts {
+    success: boolean;
+    data: {
+      transformedData: Podcast[]; // Thay đổi từ 'data' thành 'transformedData'
     };
   }

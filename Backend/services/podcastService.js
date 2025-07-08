@@ -1,15 +1,15 @@
-const musicRepository = require("../repository/musicRepository");
+const podcastRepository = require("../repository/podcastRepository");
 require("dotenv").config();
 
-class MusicService {
-  async getAllMusics() {
+class PodcastService {
+  async getAllPodcasts() {
     try {
       const baseUrl = process.env.BASE_URL || "http://localhost:5000";
 
-      const musics = await musicRepository.getAllMusics();
+      const podcasts = await podcastRepository.getAllPodcasts();
 
       // Clean và transform data - chỉ lấy những field cần thiết
-      const transformedData = musics.map((item) => {
+      const transformedData = podcasts.map((item) => {
         // Lấy data từ _doc hoặc trực tiếp từ item
         const docData = item._doc || item;
 
@@ -17,12 +17,13 @@ class MusicService {
           _id: docData._id,
           title: docData.title,
           duration: docData.duration,
-          file_url: `${baseUrl}/music/${docData.file_url}`,
+          description: docData.description,
+          file_url: `${baseUrl}/podcast/${docData.file_url}`,
         };
       });
 
       return {
-        data: transformedData,
+        transformedData,
       };
     } catch (error) {
       throw new Error(error.message || "Lỗi khi lấy danh sách nhạc từ service");
@@ -30,4 +31,4 @@ class MusicService {
   }
 }
 
-module.exports = new MusicService();
+module.exports = new PodcastService();

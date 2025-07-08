@@ -68,7 +68,13 @@ return [
                 'visibility' => 'public',
                 'throw' => false,
             ],
-
+        'podcast_upload' => [
+                'driver' => 'local',
+                'root' => base_path('../uploadPodcast'),
+                'url' => env('APP_URL') . '/uploadPodcast',
+                'visibility' => 'public',
+                'throw' => false,
+            ],
     ],
 
     /*

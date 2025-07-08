@@ -46,13 +46,14 @@ class MongoUserResource extends Resource
                     ]),
                 Select::make('role')
                     ->options([
-                        'admin' => 'Admin',
-                        'user' => 'User',
+                        'customer' => 'Customer',
                     ])
-                    ->default('user'),
-                TextInput::make('hashedPassword')
+                    ->default('customer'),
+                    TextInput::make('hashedPassword')
                     ->password()
-                    ->required(fn (string $context): bool => $context === 'create'),
+                    ->required(fn (string $context): bool => $context === 'create')
+                    ->dehydrated(fn (string $context): bool => $context === 'create') // Không lưu nếu đang edit
+                    ->label('Password'),
         ]);
     }
 
@@ -76,8 +77,7 @@ class MongoUserResource extends Resource
                     ]),
                 Tables\Columns\BadgeColumn::make('role')
                     ->colors([
-                        'danger' => 'admin',
-                        'success' => 'user',
+                        'success' => 'customer',
                     ]),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -96,8 +96,7 @@ class MongoUserResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('role')
                     ->options([
-                        'admin' => 'Admin',
-                        'user' => 'User',
+                        'customer' => 'customer',
                     ]),
             ])
             ->actions([
@@ -122,7 +121,6 @@ class MongoUserResource extends Resource
     {
         return [
             'index' => Pages\ListMongoUsers::route('/'),
-            // 'create' => Pages\CreateMongoUser::route('/create'),
             'edit' => Pages\EditMongoUser::route('/{record}/edit'),
         ];
     }

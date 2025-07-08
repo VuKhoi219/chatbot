@@ -13,7 +13,8 @@ import {
   TitleData,
   CreateTitleResponse,
   GetMessagesApiResponse,
-  GetAllMusics
+  GetAllMusics,
+  GetAllPodcasts
 } from './type'
 
 export const login = async (userData: LoginCredentials): Promise<AuthResponse> => { // Trả về Promise<AuthResponse>
@@ -125,3 +126,12 @@ export const findAllMusics = async (): Promise<GetAllMusics> => {
   }
 };
   
+export const findAllPodcasts = async (): Promise<GetAllPodcasts> => {
+  try {
+    const response = await apiClient.get<GetAllPodcasts>('/podcasts');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching musics:', error);
+    throw error;
+  }
+};
