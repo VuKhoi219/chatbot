@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    use Notifiable;
+
+    // Override notification model
+    public function notifications()
+    {
+        return $this->morphMany(\App\Models\Notification::class, 'notifiable')
+                    ->orderBy('created_at', 'desc');
+    }
 }

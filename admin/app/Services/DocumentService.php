@@ -21,7 +21,7 @@ class DocumentService
     /**
      * Xử lý PDF với batch processing để tránh timeout
      */
-    public function createDocumentsFromPdf(string $filePath, int $chunkSize = 1000): array
+    public function createDocumentsFromPdf(string $filePath, int $chunkSize = 4000): array
     {
         try {
             if (!file_exists($filePath)) {
@@ -33,7 +33,7 @@ class DocumentService
 
             // Tăng memory limit và execution time cho process này
             ini_set('memory_limit', '512M');
-            set_time_limit(300); // 5 phút
+            set_time_limit(0); // 5 phút
 
             $chunks = $this->readPdfChunks($filePath, $chunkSize);
 

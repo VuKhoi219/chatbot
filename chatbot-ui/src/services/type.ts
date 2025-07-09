@@ -114,4 +114,19 @@ export interface GetAllPodcasts {
     data: {
       transformedData: Podcast[]; // Thay đổi từ 'data' thành 'transformedData'
     };
-  }
+}
+  
+export interface SurveysAndFeedback {
+    _id: string;
+    title: string;
+    description: string;
+    link: string;
+    category: string;
+    created_at: string;
+    updated_at: string;
+}  
+export interface GetAllSurveyAndFeedback {
+    success: boolean;
+    surveysAndFeedbacks: SurveysAndFeedback[];
+}
+  

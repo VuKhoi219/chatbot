@@ -11,12 +11,13 @@ class MongoSurveysAndFeedback extends Model
     //
 
     protected $connection = 'mongodb';
-    protected $collection = 'survey_and_feedback';
+    protected $collection = 'survey_and_feedbacks';
 
     protected $fillable = [
         'title',
         'description',
-        'link'
+        'link',
+        'category'
     ];
     public function getTable()
     {

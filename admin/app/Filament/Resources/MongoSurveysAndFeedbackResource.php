@@ -39,6 +39,10 @@ class MongoSurveysAndFeedbackResource extends Resource
                     ->url()
                     ->required()
                     ->maxLength(500),
+                Forms\Components\TextInput::make('category')
+                    ->label('Thể loại')
+                    ->required()
+                    ->maxLength(500),
             ]);
     }
 
@@ -51,19 +55,20 @@ class MongoSurveysAndFeedbackResource extends Resource
                     ->label('Tiêu đề')
                     ->searchable()
                     ->sortable(),
-
                 Tables\Columns\TextColumn::make('description')
                     ->label('Mô tả')
                     ->limit(50),
-
                 Tables\Columns\TextColumn::make('link')
                     ->label('Link khảo sát')
                     ->url(fn ($record) => $record->link)
                     ->openUrlInNewTab()
                     ->copyable()->limit(20),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Thể loại')
+                    ->limit(50),
             ])
             ->filters([])
-            ->actions([
+            ->actions([ 
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

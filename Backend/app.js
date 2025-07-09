@@ -12,6 +12,7 @@ const chatRouter = require("./routes/chatRoutes");
 const musicRoute = require("./routes/musicRoute");
 const podcastRoute = require("./routes/podcastRoutes");
 const documentRoutes = require("./routes/documentRoutes");
+const surveysAndFeedbackRoutes = require("./routes/surveysAndFeedbackRoutes");
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
@@ -27,6 +28,7 @@ app.use("/api/chat", chatRouter);
 app.use("/api/documents", documentRoutes);
 app.use("/api/musics", musicRoute); // => /api/musics
 app.use("/api/podcasts", podcastRoute);
+app.use("/api/surveysAndFeedback", surveysAndFeedbackRoutes);
 app.use("/music", express.static(path.join(__dirname, "../uploadMusic")));
 app.use("/podcast", express.static(path.join(__dirname, "../uploadPodcast")));
 
