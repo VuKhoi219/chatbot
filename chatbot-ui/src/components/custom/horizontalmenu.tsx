@@ -37,7 +37,7 @@ const HorizontalMenu = ({ activeTab, onTabChange }) => {
               </Box>
             </RadixNavigationMenu.Link>
           </RadixNavigationMenu.Item>
-          
+{/*           
           <RadixNavigationMenu.Item className="flex-1">
             <RadixNavigationMenu.Link asChild>
               <Box
@@ -48,7 +48,7 @@ const HorizontalMenu = ({ activeTab, onTabChange }) => {
                 <SpaIcon/>
               </Box>
             </RadixNavigationMenu.Link>
-          </RadixNavigationMenu.Item>
+          </RadixNavigationMenu.Item> */}
         </RadixNavigationMenu.List>
       </RadixNavigationMenu.Root>
     </Box>
