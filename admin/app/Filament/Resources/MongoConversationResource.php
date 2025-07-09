@@ -25,7 +25,7 @@ class MongoConversationResource extends Resource
 {
     protected static ?string $model = MongoConversation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-oval-left-ellipsis';
     protected static ?string $navigationLabel = 'Trò chuyện';
     protected static ?string $pluralLabel = 'Trò chuyện';
     public static function form(Form $form): Form

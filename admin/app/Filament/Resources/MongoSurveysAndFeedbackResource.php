@@ -17,7 +17,7 @@ class MongoSurveysAndFeedbackResource extends Resource
 {
     protected static ?string $model = MongoSurveysAndFeedback::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-asia-australia';
     protected static ?string $navigationLabel = 'Khảo sát';
     protected static ?string $pluralLabel = 'Khảo sát';
     public static function form(Form $form): Form
@@ -68,7 +68,7 @@ class MongoSurveysAndFeedbackResource extends Resource
                     ->limit(50),
             ])
             ->filters([])
-            ->actions([ 
+            ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

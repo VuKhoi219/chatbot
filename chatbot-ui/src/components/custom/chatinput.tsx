@@ -285,14 +285,14 @@ interface ChatInputProps {
 
 const suggestedActions = [
   {
-    title: 'How is the weather',
-    label: 'in Vienna?',
-    action: 'How is the weather in Vienna today?',
+    title: 'Hôm nay tôi rất buồn',
+    label: 'bạn có thể kể truyện vui giúp tôi được không?',
+    action: 'Hôm nay tôi rất buồn,bạn có thể kể truyện vui giúp tôi được không?',
   },
   {
-    title: 'Tell me a fun fact',
-    label: 'about pandas',
-    action: 'Tell me an interesting fact about pandas',
+    title: 'Tôi muốn trị liệu cơ bản ',
+    label: 'để thư giãn tinh thần',
+    action: 'Tôi muốn trị liệu cơ bản để thư giãn tinh thần',
   },
 ];
 

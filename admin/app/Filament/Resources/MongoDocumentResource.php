@@ -19,7 +19,7 @@ class MongoDocumentResource extends Resource
 {
     protected static ?string $model = MongoDocument::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationLabel = 'Tài liệu';
     protected static ?string $pluralLabel = 'Tài liệu';
 

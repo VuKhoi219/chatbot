@@ -24,7 +24,7 @@ class MongoMessageResource extends Resource
 {
     protected static ?string $model = MongoMessage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static ?string $navigationLabel = 'Tin nhắn';
     protected static ?string $pluralLabel = 'Tin nhắn';
 

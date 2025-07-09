@@ -20,7 +20,7 @@ class MongoPodcastResource extends Resource
 {
     protected static ?string $model = MongoPodcast::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-microphone';
     protected static ?string $navigationLabel = 'Podcast';
     protected static ?string $pluralLabel = 'Podcast';
 

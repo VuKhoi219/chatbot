@@ -19,7 +19,7 @@ class MongoUserResource extends Resource
 {
     protected static ?string $model = MongoUser::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Người dùng';
     protected static ?string $pluralLabel = 'Người dùng';
 

@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Log;
 class MongoMusicResource extends Resource
 {
     protected static ?string $model = MongoMusic::class;
-    
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationIcon = 'heroicon-o-musical-note';
     protected static ?string $navigationLabel = 'Âm nhạc';
     protected static ?string $pluralLabel = 'Âm nhạc';
 
