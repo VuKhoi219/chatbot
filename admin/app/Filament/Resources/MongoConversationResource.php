@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MongoConversationResource\Pages;
-use App\Filament\Resources\MongoConversationResource\RelationManagers;
 use App\Models\MongoUser;
 use App\Models\MongoConversation;
 use Filament\Forms;
@@ -111,17 +110,6 @@ class MongoConversationResource extends Resource
                 TextEntry::make('title')->label('Tiêu đề'),
                 TextEntry::make('mood_before')->label('Tâm trạng trước')
                     ->columnSpanFull(),
-                RepeatableEntry::make('messages')
-                    ->label('Tin nhắn')
-                    ->schema([
-                        TextEntry::make('sender')->label('Người gửi'),
-                        TextEntry::make('content')->label('Nội dung')
-                            ->limit(100), // Giới hạn độ dài hiển thị
-                        TextEntry::make('emotion')->label('Cảm xúc'),
-                        TextEntry::make('timestamp')->label('Thời gian')
-                            ->dateTime(),
-                    ])
-                    ->columnSpanFull(),
             ]);
     }
     public static function getPages(): array
@@ -130,7 +118,7 @@ class MongoConversationResource extends Resource
             'index' => Pages\ListMongoConversations::route('/'),
             // 'create' => Pages\CreateMongoConversation::route('/create'),
             'view' => Pages\ViewMongoConversation::route('/{record}'),
-            'edit' => Pages\EditMongoConversation::route('/{record}/edit'),
+            // 'edit' => Pages\EditMongoConversation::route('/{record}/edit'),
         ];
     }
 

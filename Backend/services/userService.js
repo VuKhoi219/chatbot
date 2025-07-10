@@ -40,15 +40,15 @@ class UserService {
             }
             // Tạo JWT token
             const token = jwt.sign(
-                { 
-                    userId: result.user._id, 
-                    email: result.user.email,
-                    age: result.user.age,
-                    gender: result.user.gender,
-                    role:result.user.role
-                },
-                process.env.JWT_SECRET || 'your-secret-key',
-                { expiresIn: '24h' }
+              {
+                userId: result.user._id,
+                email: result.user.email,
+                age: result.user.age,
+                gender: result.user.gender,
+                role: result.user.role,
+              },
+              process.env.JWT_SECRET || "your-secret-key",
+              { expiresIn: "60 * 60 * 24 * 30 " }
             );
             delete result.user.hashedPassword;
             return {
