@@ -1,185 +1,20 @@
-// import React, { useState, useEffect, useMemo } from 'react';
-// import { Button } from '../ui/button';
-// import { Search, X } from 'lucide-react';
-// import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-// import { useConversations } from '../../hooks/useListConversations';
-// import { useConversationContext } from '@/context/ConversationContext'; // dùng context
-
-// interface LeftSidebarProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-// }
-
-// export const LeftSidebar: React.FC<LeftSidebarProps> = ({ isOpen, onClose }) => {
-//   const [searchQuery, setSearchQuery] = useState('');
-//   const [userId, setUserId] = useState<string>('');
-//   const { conversations: newConversations } = useConversationContext();
-//   const { chatTitle } = useConversationContext();
-
-//   console.log("🟡 LeftSidebar nhận chatTitle:", chatTitle);
-
-//   // Lấy userId từ localStorage
-//   useEffect(() => {
-//     const userData = localStorage.getItem('user');
-//     if (userData) {
-//       try {
-//         const user = JSON.parse(userData);
-//         setUserId(user.id);
-//       } catch (error) {
-//         console.error('Error parsing user data:', error);
-//       }
-//     }
-//   }, []);
-
-//   // Lấy danh sách cũ từ API
-//   const { conversations: oldConversations, loading, error } = useConversations(userId);
-
-//   // Hợp nhất danh sách mới và cũ
-//   const allConversations = useMemo(() => {
-//     const ids = new Set();
-//     const merged = [...newConversations, ...oldConversations].filter(conv => {
-//       if (ids.has(conv._id)) return false;
-//       ids.add(conv._id);
-//       return true;
-//     });
-//     return merged;
-//   }, [newConversations, oldConversations]);
-
-//   const filteredHistory = allConversations.filter(item =>
-//     item.title.toLowerCase().includes(searchQuery.toLowerCase())
-//   );
-
-//   const clearSearch = () => {
-//     setSearchQuery('');
-//   };
-
-//   return (
-//     <div
-//       className={`
-//         bg-gray-200 w-64 p-4 transition-transform duration-300 transform
-//         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-//         ${isOpen ? 'shadow-lg' : ''}
-//         fixed top-16 left-0 h-full z-40 flex flex-col
-//       `}
-//     >
-//       {/* Close Button */}
-//       <Button
-//         onClick={onClose}
-//         className="absolute top-2 right-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-//       >
-//         <KeyboardArrowLeftIcon />
-//       </Button>
-
-//       {/* Header */}
-//       <h2 className="text-lg font-semibold mb-4 mt-12">Lịch sử chat</h2>
-
-//       {/* Hiển thị tiêu đề mới nhất */}
-//       {chatTitle && (
-//         <div className="mb-4 p-3 bg-yellow-100 border border-yellow-300 rounded-md shadow-sm">
-//           <div className="text-xs text-gray-600 uppercase font-semibold mb-1">Tiêu đề mới nhất</div>
-//           <div className="text-sm font-medium text-gray-800">{chatTitle}</div>
-//         </div>
-//       )}
-
-//       {/* Search Bar */}
-//       <div className="relative mb-4">
-//         <div className="flex items-center bg-white rounded-lg border border-gray-300 px-3 py-2">
-//           <Search className="h-4 w-4 text-gray-500 mr-2" />
-//           <input
-//             type="text"
-//             placeholder="Tìm kiếm cuộc trò chuyện..."
-//             value={searchQuery}
-//             onChange={(e) => setSearchQuery(e.target.value)}
-//             className="flex-1 outline-none text-sm"
-//           />
-//           {searchQuery && (
-//             <button
-//               onClick={clearSearch}
-//               className="ml-2 text-gray-400 hover:text-gray-600"
-//             >
-//               <X className="h-4 w-4" />
-//             </button>
-//           )}
-//         </div>
-//       </div>
-
-//       {searchQuery && (
-//         <div className="text-sm text-gray-600 mb-2">
-//           {filteredHistory.length} kết quả cho "{searchQuery}"
-//         </div>
-//       )}
-
-//       {loading && (
-//         <div className="flex-1 flex items-center justify-center">
-//           <div className="text-sm text-gray-500">Đang tải...</div>
-//         </div>
-//       )}
-
-//       {error && (
-//         <div className="flex-1 flex items-center justify-center">
-//           <div className="text-sm text-red-500 text-center">
-//             <p>Lỗi: {error}</p>
-//             <button
-//               onClick={() => window.location.reload()}
-//               className="mt-2 text-xs underline"
-//             >
-//               Thử lại
-//             </button>
-//           </div>
-//         </div>
-//       )}
-
-//       {!loading && !error && (
-//         <div className="flex-1 overflow-hidden">
-//           <div className="h-full overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-//             {filteredHistory.length > 0 ? (
-//               filteredHistory.map((item) => (
-//                 <div
-//                   key={item._id}
-//                   className="block p-3 hover:bg-gray-300 rounded-lg cursor-pointer transition-colors"
-//                 >
-//                   <div className="font-medium text-sm text-gray-800 mb-1">
-//                     {item.title}
-//                   </div>
-//                   <div className="text-xs text-gray-600 truncate">
-//                     Cuộc trò chuyện
-//                   </div>
-//                 </div>
-//               ))
-//             ) : (
-//               <div className="text-sm text-gray-500 text-center py-4">
-//                 {searchQuery ? 'Không tìm thấy kết quả nào' : 'Chưa có lịch sử chat'}
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
 import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from '../ui/button';
-import { Search, X, PlusCircle  } from 'lucide-react';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { cx } from 'classix'; // <<< Thêm import này
-
-// Loại bỏ import useConversations ở đây, vì context đã fetch và quản lý
-import { useConversationContext } from '@/context/ConversationContext'; // dùng context
+import { Search, X, PlusCircle, MessageCircle, Calendar, ArrowLeft } from 'lucide-react';
+import { cx } from 'classix';
+import { useConversationContext } from '@/context/ConversationContext';
 
 interface LeftSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  onNewChat: () => void; // <<< Thêm prop này
-
-  // Có thể thêm prop để xử lý "New Chat" button nếu có
+  onNewChat: () => void;
 }
 
-export const LeftSidebar: React.FC<LeftSidebarProps> = ({ isOpen, onClose,onNewChat  }) => {
+export const LeftSidebar: React.FC<LeftSidebarProps> = ({ isOpen, onClose, onNewChat }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  // Lấy conversations và setSelectedConversationId từ context
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  
   const { conversations, selectedConversationId, setSelectedConversationId, selectedConversation } = useConversationContext();
-
-  // Loại bỏ logic fetch userId và useConversations ở đây vì đã chuyển vào context
 
   const filteredHistory = conversations.filter(item =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -189,113 +24,224 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({ isOpen, onClose,onNewC
     setSearchQuery('');
   };
 
-  // Hàm xử lý khi click vào một item lịch sử
   const handleConversationClick = (convId: string) => {
-      setSelectedConversationId(convId);
-      // Tùy chọn: đóng sidebar khi click trên mobile
-      // onClose();
+    setSelectedConversationId(convId);
+    // Đóng sidebar trên mobile sau khi chọn
+    if (window.innerWidth < 768) {
+      onClose();
+    }
   };
 
-  // Hiển thị tiêu đề của cuộc trò chuyện đang được chọn
-  // (Thay vì hiển thị "Tiêu đề mới nhất" không liên quan trực tiếp đến lịch sử)
   const currentSelectedTitle = selectedConversation ? selectedConversation.title : 'Chọn cuộc trò chuyện';
 
+  // Nhóm conversations theo ngày (nếu có createdAt)
+  const groupedConversations = useMemo(() => {
+    const grouped: { [key: string]: typeof conversations } = {};
+    
+    filteredHistory.forEach(conv => {
+      // Giả sử có trường createdAt, nếu không có thì dùng 'Gần đây'
+      const date = conv.createdAt ? new Date(conv.createdAt).toLocaleDateString('vi-VN') : 'Gần đây';
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+      grouped[date].push(conv);
+    });
+
+    return grouped;
+  }, [filteredHistory]);
 
   return (
-    <div
-      className={`
-        bg-gray-200 w-64 p-4 transition-transform duration-300 transform
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        ${isOpen ? 'shadow-lg' : ''}
-        fixed top-16 left-0 h-full z-40 flex flex-col
-      `}
-    >
-      {/* Close Button */}
-      <Button
-        onClick={onClose}
-        className="absolute top-2 right-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-      >
-        <KeyboardArrowLeftIcon />
-      </Button>
-      <div className="pt-10"> {/* Thêm padding để tránh nút bị che */}
-        <Button
-          variant="outline"
-          className="w-full justify-start mb-4 mt-2 text-gray-800"
-          onClick={onNewChat}
-        >
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Cuộc trò chuyện mới
-        </Button>
-      </div>
-      {/* Header */}
-      <h2 className="text-lg font-semibold mb-4 mt-12">Lịch sử chat</h2>
-
-      {/* Hiển thị tiêu đề của cuộc trò chuyện đang được chọn */}
-      <div className="mb-4 p-3 bg-blue-100 border border-blue-300 rounded-md shadow-sm">
-          <div className="text-xs text-gray-600 uppercase font-semibold mb-1">Đang xem</div>
-          <div className="text-sm font-medium text-gray-800 truncate">{currentSelectedTitle}</div>
-      </div>
-
-      {/* Search Bar */}
-      <div className="relative mb-4">
-        <div className="flex items-center bg-white rounded-lg border border-gray-300 px-3 py-2">
-          <Search className="h-4 w-4 text-gray-500 mr-2" />
-          <input
-            type="text"
-            placeholder="Tìm kiếm cuộc trò chuyện..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 outline-none text-sm"
-          />
-          {searchQuery && (
-            <button
-              onClick={clearSearch}
-              className="ml-2 text-gray-400 hover:text-gray-600"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {searchQuery && (
-        <div className="text-sm text-gray-600 mb-2">
-          {filteredHistory.length} kết quả cho "{searchQuery}"
-        </div>
+    <>
+      {/* Overlay cho mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 md:hidden"
+          onClick={onClose}
+        />
       )}
 
-      {/* Loading/Error handling from Context or parent if needed */}
-      {/* Hiện tại context không expose loading/error của useConversations, bạn có thể thêm vào nếu cần */}
-      {/* Ví dụ: {contextLoading && <p>Loading...</p>} */}
+      {/* Sidebar */}
+      <div
+        className={cx(
+          "fixed top-0 left-0 h-full z-40 flex flex-col transition-all duration-300 ease-in-out",
+          "bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800",
+          "border-r border-gray-200 dark:border-gray-700 shadow-xl",
+          // Responsive width
+          "w-80 md:w-72 lg:w-80",
+          // Transform based on isOpen
+          isOpen ? "translate-x-0" : "-translate-x-full",
+          // Mobile: full screen height, Desktop: account for header
+          "md:top-16 md:h-[calc(100vh-4rem)]"
+        )}
+      >
+        {/* Header Section */}
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+          {/* Close button for mobile */}
+          <div className="flex items-center justify-between mb-4 md:mb-2">
+            <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+              MindCare AI
+            </h2>
+            <Button
+              onClick={onClose}
+              variant="ghost"
+              size="sm"
+              className="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </div>
 
-      <div className="flex-1 overflow-hidden">
-        <div className="h-full overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          {filteredHistory.length > 0 ? (
-            filteredHistory.map((item) => (
-              <div
-                key={item._id}
-                className={cx(
-                    "block p-3 rounded-lg cursor-pointer transition-colors",
-                    selectedConversationId === item._id ? 'bg-blue-300 hover:bg-blue-400' : 'hover:bg-gray-300'
-                )}
-                onClick={() => handleConversationClick(item._id)}
-              >
-                <div className="font-medium text-sm text-gray-800 mb-1">
-                  {item.title}
-                </div>
-                {/* Có thể hiển thị thời gian hoặc tin nhắn cuối cùng nếu API trả về */}
-                <div className="text-xs text-gray-600 truncate">
-                  Cuộc trò chuyện
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="text-sm text-gray-500 text-center py-4">
-              {searchQuery ? 'Không tìm thấy kết quả nào' : 'Chưa có lịch sử chat'}
+          {/* New Chat Button */}
+          <Button
+            onClick={onNewChat}
+            className="w-full justify-start bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+          >
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Cuộc trò chuyện mới
+          </Button>
+        </div>
+
+        {/* Current Selection Display */}
+        {selectedConversation && (
+          <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-b border-blue-200 dark:border-blue-800">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              <span className="text-xs font-medium text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                Đang xem
+              </span>
+            </div>
+            <div className="text-sm font-semibold text-gray-800 dark:text-white mt-1 truncate">
+              {currentSelectedTitle}
+            </div>
+          </div>
+        )}
+
+        {/* Search Section */}
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className={cx(
+            "relative transition-all duration-200",
+            isSearchFocused && "transform scale-[1.02]"
+          )}>
+            <div className={cx(
+              "flex items-center bg-white dark:bg-gray-800 rounded-xl border px-3 py-2.5 shadow-sm",
+              isSearchFocused 
+                ? "border-blue-500 dark:border-blue-400 shadow-lg shadow-blue-500/20" 
+                : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
+            )}>
+              <Search className={cx(
+                "h-4 w-4 mr-2 transition-colors",
+                isSearchFocused ? "text-blue-500" : "text-gray-400"
+              )} />
+              <input
+                type="text"
+                placeholder="Tìm kiếm cuộc trò chuyện..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
+                className="flex-1 outline-none text-sm bg-transparent text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+              />
+              {searchQuery && (
+                <button
+                  onClick={clearSearch}
+                  className="ml-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Search Results Count */}
+          {searchQuery && (
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-2 px-1">
+              {filteredHistory.length} kết quả cho <span className="font-semibold">"{searchQuery}"</span>
             </div>
           )}
         </div>
+
+        {/* Conversations List */}
+        <div className="flex-1 overflow-hidden">
+          <div className="h-full overflow-y-auto px-2 py-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
+            {Object.keys(groupedConversations).length > 0 ? (
+              Object.entries(groupedConversations).map(([date, convs]) => (
+                <div key={date} className="space-y-2">
+                  {/* Date Header */}
+                  <div className="flex items-center space-x-2 px-3 py-1">
+                    <Calendar className="h-3 w-3 text-gray-400" />
+                    <h3 className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                      {date}
+                    </h3>
+                  </div>
+
+                  {/* Conversations for this date */}
+                  <div className="space-y-1">
+                    {convs.map((item) => (
+                      <div
+                        key={item._id}
+                        className={cx(
+                          "group relative mx-2 p-3 rounded-xl cursor-pointer transition-all duration-200",
+                          "hover:shadow-md hover:scale-[1.01] transform",
+                          selectedConversationId === item._id 
+                            ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25' 
+                            : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-white border border-gray-200 dark:border-gray-700'
+                        )}
+                        onClick={() => handleConversationClick(item._id)}
+                      >
+                        <div className="flex items-start space-x-3">
+                          <div className={cx(
+                            "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all",
+                            selectedConversationId === item._id 
+                              ? 'bg-white/20' 
+                              : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600'
+                          )}>
+                            <MessageCircle className={cx(
+                              "h-4 w-4",
+                              selectedConversationId === item._id ? 'text-white' : 'text-gray-600 dark:text-gray-400'
+                            )} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className={cx(
+                              "font-medium text-sm mb-1 truncate",
+                              selectedConversationId === item._id ? 'text-white' : 'text-gray-800 dark:text-white'
+                            )}>
+                              {item.title}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Active indicator */}
+                        {selectedConversationId === item._id && (
+                          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full"></div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12 px-4">
+                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                  <MessageCircle className="h-8 w-8 text-gray-400" />
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                  {searchQuery ? (
+                    <>
+                      <p className="font-medium">Không tìm thấy kết quả</p>
+                      <p className="text-xs mt-1">Thử từ khóa khác</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium">Chưa có lịch sử chat</p>
+                      <p className="text-xs mt-1">Bắt đầu cuộc trò chuyện đầu tiên</p>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };

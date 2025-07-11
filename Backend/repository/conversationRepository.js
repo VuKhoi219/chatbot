@@ -5,7 +5,8 @@ class ConversationRepository {
     try {
       const conversations = await Conversation.find({ user_id: userId })
         .select("title _id")
-        .sort({ created_at: -1 }); // Sắp xếp theo thời gian tạo mới nhất
+        .sort({ created_at: -1 })
+        .limit(10); // Sắp xếp theo thời gian tạo mới nhất
 
       if (!conversations || conversations.length === 0) {
         return {
@@ -33,11 +34,7 @@ class ConversationRepository {
       const { user_id, title, mood_before, mood_after } = data; // Sửa lỗi typo từ mod_before
 
       // Validate data trước khi tạo
-      if (
-        !user_id ||
-        !title ||
-        mood_before === undefined 
-      ) {
+      if (!user_id || !title || mood_before === undefined) {
         return {
           success: false,
           message: "Thiếu thông tin bắt buộc để tạo conversation",

@@ -81,23 +81,6 @@ export const Podcast = ({ isActive }) => {
             Trình duyệt của bạn không hỗ trợ audio.
           </audio>
         </div>
-
-        {/* Player Controls */}
-        <div className="flex items-center justify-center space-x-4 mt-3">
-          <button onClick={prevPodcast} className="text-gray-600 hover:text-gray-800">
-            <SkipBack className="h-5 w-5" />
-          </button>
-          <button
-            onClick={playPause}
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2"
-          >
-            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-          </button>
-          <button onClick={nextPodcast} className="text-gray-600 hover:text-gray-800">
-            <SkipForward className="h-5 w-5" />
-          </button>
-          <Volume2 className="h-4 w-4 text-gray-600" />
-        </div>
       </div>
 
       {/* Playlist */}

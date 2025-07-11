@@ -1,41 +1,4 @@
-// // context/ConversationContext.tsx
-// import React, { createContext, useContext, useState } from 'react';
 
-// export interface Conversation {
-//   _id: string;
-//   title: string;
-// }
-
-// interface ConversationContextProps {
-//   conversations: Conversation[];
-//   addConversation: (conv: Conversation) => void;
-// }
-
-// const ConversationContext = createContext<ConversationContextProps | undefined>(undefined);
-
-// export const ConversationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-//   const [conversations, setConversations] = useState<Conversation[]>([]);
-
-//   const addConversation = (conv: Conversation) => {
-//     console.log("ADDING TO CONTEXT:", conv); // để kiểm tra
-//     setConversations(prev => [conv, ...prev]);
-//   };
-
-//   return (
-//     <ConversationContext.Provider value={{ conversations, addConversation }}>
-//       {children}
-//     </ConversationContext.Provider>
-//   );
-// };
-
-// export const useConversationContext = () => {
-//   const context = useContext(ConversationContext);
-//   if (!context) {
-//     throw new Error("useConversationContext must be used within a ConversationProvider");
-//   }
-//   return context;
-// };
-// context/ConversationContext.tsx
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react'; // <<< Thêm useMemo ở đây
 import { useConversations } from '@/hooks/useListConversations'; // Giả định hook này trả về list ban đầu
 import { Conversation as ApiConversation } from '@/services/type'; // Giả định Conversation type từ API

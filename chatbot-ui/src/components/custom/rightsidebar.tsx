@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button';
-import { SurveyAndFeedback } from '@/components/custom/Survey-and-feedback';
+import { SurveyAndFeedback } from '@/components/custom/survey-and-feedback';
 import HorizontalMenu from '@/components/custom/horizontalmenu'
 import { Music } from '@/components/custom/music';
 import { Podcast } from '@/components/custom/podcast';
-import { Therapy } from '@/components/custom/therapy';
 import React, { useState } from 'react';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 export const RightSidebar = ({ isOpen, onClose }) => {
@@ -32,7 +31,6 @@ export const RightSidebar = ({ isOpen, onClose }) => {
         <HorizontalMenu   activeTab={activeTab} onTabChange={setActiveTab} />
         <Music isActive={activeTab === 'music'} />
         <Podcast isActive={activeTab === 'podcast'} />
-        <Therapy isActive={activeTab === 'therapy'} />
       </div>
 
       {/* Survey Forms Section - Bottom Half */}

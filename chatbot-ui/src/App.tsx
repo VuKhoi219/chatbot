@@ -7,6 +7,7 @@ import { Welcome } from './pages/welcome/welcome';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { PublicRoute } from './components/PublicRoute';
 import { ConversationProvider } from '@/context/ConversationContext';
+import ChatBot404 from '@/pages/404'; // Import trang 404
 
 function App(): JSX.Element {
   return (
@@ -36,6 +37,7 @@ function App(): JSX.Element {
                   </PublicRoute>
                 }
               />
+              <Route path="*" element={<ChatBot404 />} />
             </Routes>
           </div>
         </Router>
