@@ -6,16 +6,16 @@ const {authenticateToken, requirePermission} = require("../middleware/auth");
 
 router.post(
   "/title",
-  // authenticateToken,
-  // requirePermission({ roles: ["customer"] }),
+  authenticateToken,
+  requirePermission({ roles: ["customer"] }),
   chatController.generateTitle
 );
 
 // POST /chat/message
 router.post(
   "/message",
-  // authenticateToken,
-  // requirePermission({ roles: ["customer"] }),
+  authenticateToken,
+  requirePermission({ roles: ["customer"] }),
   chatController.chat
 );
 
