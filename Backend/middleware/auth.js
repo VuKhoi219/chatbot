@@ -99,7 +99,6 @@ const authenticateToken = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log("Auth error:", error);
 
     // Handle specific JWT errors
     if (error.name === "TokenExpiredError") {

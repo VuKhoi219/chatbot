@@ -25,15 +25,27 @@ const useRegister = (): UseRegisterResult => {
 
         try {
             const userData = { name, email, password, age, gender };
-            const user: User = await register(userData);
+            const res = await register(userData); // res là toàn bộ JSON từ API
+
             setLoading(false);
-            return user;
+
+            // Nếu server trả về lỗi
+            if (res.success === false) {
+                throw new Error(res.message || 'Registration failed');
+            }
+
+            return res.user; // chỉ trả user khi thành công
         } catch (error: any) {
             setLoading(false);
-            setError(error.message || 'Registration failed');
-            return null;
+            const serverMessage =
+                error.response?.data?.message ||
+                error.message ||
+                'Registration failed';
+            setError(serverMessage);
+            throw new Error(serverMessage); // 👈 ném lỗi để handleSubmit bắt
         }
     };
+
 
     const clearError = () => {
         setError(null);

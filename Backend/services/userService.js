@@ -17,7 +17,6 @@ class UserService {
       });
       return result;
     } catch (error) {
-      console.log(error);
       return {
         success: false,
         message: "Lỗi server",
@@ -66,7 +65,6 @@ class UserService {
         user: result,
       };
     } catch (error) {
-      console.log("login error: " + error);
       throw new Error(error.message || "Lỗi khi đăng nhập");
     }
   }

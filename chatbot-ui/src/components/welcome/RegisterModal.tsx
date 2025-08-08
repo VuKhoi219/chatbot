@@ -1,7 +1,8 @@
 // src/components/RegisterModal.tsx
 import React, { useState } from 'react';
 import useRegister from '../../hooks/useRegister';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface RegisterModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -9,7 +10,7 @@ interface RegisterModalProps {
 }
 
 const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, onSwitchToLogin }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
@@ -28,49 +29,24 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, onSwitch
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
-      setFormData(prev => ({
-        ...prev,
-        [name]: checked
-      }));
+      setFormData(prev => ({ ...prev, [name]: checked }));
     } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }));
+      setFormData(prev => ({ ...prev, [name]: value }));
     }
-    
-    // Clear errors when user starts typing
     if (errors) setErrors('');
   };
 
   const validateForm = () => {
-    if (!formData.name.trim()) {
-      return 'Vui lòng nhập họ tên';
-    }
-    if (!formData.email.trim()) {
-      return 'Vui lòng nhập email';
-    }
-    if (!formData.password) {
-      return 'Vui lòng nhập mật khẩu';
-    }
-    if (formData.password.length < 8) {
-      return 'Mật khẩu phải có ít nhất 8 ký tự';
-    }
-    if (formData.password !== formData.confirmPassword) {
-      return 'Mật khẩu xác nhận không khớp';
-    }
-    if (!formData.age || parseInt(formData.age) < 1) {
-      return 'Vui lòng nhập tuổi hợp lệ';
-    }
-    if (!formData.gender) {
-      return 'Vui lòng chọn giới tính';
-    }
-    if (!formData.agreeToTerms) {
-      return 'Vui lòng đồng ý với điều khoản dịch vụ';
-    }
+    if (!formData.name.trim()) return 'Vui lòng nhập họ tên';
+    if (!formData.email.trim()) return 'Vui lòng nhập email';
+    if (!formData.password) return 'Vui lòng nhập mật khẩu';
+    if (formData.password.length < 8) return 'Mật khẩu phải có ít nhất 8 ký tự';
+    if (formData.password !== formData.confirmPassword) return 'Mật khẩu xác nhận không khớp';
+    if (!formData.age || parseInt(formData.age) < 1) return 'Vui lòng nhập tuổi hợp lệ';
+    if (!formData.gender) return 'Vui lòng chọn giới tính';
+    if (!formData.agreeToTerms) return 'Vui lòng đồng ý với điều khoản dịch vụ';
     return null;
   };
 
@@ -84,29 +60,39 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, onSwitch
     }
 
     try {
-      // TODO: Implement registration logic here
-      console.log('Form data:', formData);
-      const registerReponse = await registerUser(formData.name,formData.email,formData.password,Number(formData.age),formData.gender)
-      
-      alert('Đăng ký thành công!');
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        age: '',
-        gender: '',
-        agreeToTerms: false
-      });
-      
-      onClose();
-    } catch (err) {
-      console.error('Registration error:', err);
-      setErrors('Có lỗi xảy ra, vui lòng thử lại');
+      const registerResponse = await registerUser(
+        formData.name,
+        formData.email,
+        formData.password,
+        Number(formData.age),
+        formData.gender
+      );
+
+      if (registerResponse) {
+        toast.success('🎉 Đăng ký thành công!', { position: 'top-center' });
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          age: '',
+          gender: '',
+          agreeToTerms: false
+        });
+        onClose();
+      }
+    } catch (err: any) {
+      console.error('Registration error:', err.message);
+
+      // Lấy thông báo từ server
+      const serverMessage =
+        err.message || 'Có lỗi xảy ra, vui lòng thử lại';
+
+      setErrors(serverMessage);
+      toast.error(`❌ ${serverMessage}`, { position: 'top-center' });
     }
   };
+
 
   const handleClose = () => {
     setErrors('');

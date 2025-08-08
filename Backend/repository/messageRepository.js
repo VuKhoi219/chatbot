@@ -25,10 +25,20 @@ class MessageRepository {
         return {
         success: true,
             messages,
-        
       };
     } catch (error) {
       throw new Error(`Lỗi khi lấy tin nhắn theo cuộc hội thoại: ${error.message}`);
+    }
+  }
+  async findMessageLateBotByConversationId(conversationId) {
+    try {
+      const message = await Message.findOne({
+        conversation_id: conversationId,
+        sender: "bot",
+      }).sort({ timestamp: -1 });
+      return message;
+    }catch (error) {
+      throw new Error(`Lỗi khi lấy tin nhắn muộn của bot theo cuộc hội thoại: ${error.message}`);
     }
   }
 }

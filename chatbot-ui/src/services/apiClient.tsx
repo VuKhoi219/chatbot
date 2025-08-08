@@ -3,10 +3,12 @@ import axios, { AxiosInstance } from 'axios';
 
 // Tạo một Axios instance với cấu hình chung
 const apiClient: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api', // Thay thế bằng URL gốc của API của bạn
+  baseURL:'http://localhost:5000/api',
   timeout: 10000,                 // Thời gian chờ tối đa (milliseconds)
   headers: {
     'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true'  // Chỉ cần dòng này
+
     // Thêm các header mặc định khác nếu cần thiết (ví dụ: Authorization)
   },
 });

@@ -1,5 +1,4 @@
 import { Podcast } from './../components/custom/podcast';
-import { ApiResponse } from './type';
 
 export interface User {
     id: string;
@@ -33,6 +32,11 @@ export interface ApiResponse {
 export interface Message {
     id: string;
     message: string;
+}
+
+export interface MessageBotRequest {
+    message: string;
+    conversation_id: string;
 }
 export interface ApiResponseTitle{
     title: string;

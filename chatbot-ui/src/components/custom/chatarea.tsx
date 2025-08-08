@@ -41,13 +41,9 @@ export const ChatArea: React.FC = () => {
 
   // Callback khi ChatInput gửi tin nhắn thành công và nhận phản hồi từ bot
   const handleMessageReceived = useCallback((botResponse: any) => {
-      // Giả định botResponse có cấu trúc { message: string }
-      // và message là string JSON chứa { content: "..." }
+
       try {
            const botMessageContent = JSON.parse(botResponse.message).content;
-
-           // Thêm tin nhắn bot vào danh sách hiển thị ngay lập tức
-           // (Sau đó việc lưu vào DB sẽ được xử lý trong ChatInput)
            const newBotMessage: ApiMessage = {
                _id: `temp-bot-${Date.now()}`, // ID tạm thời
                conversation_id: selectedConversationId || 'temp', // Sẽ được cập nhật sau khi tạo conversation mới
@@ -58,14 +54,6 @@ export const ChatArea: React.FC = () => {
                __v: 0
            };
            setDisplayedMessages(prev => [...prev, newBotMessage]);
-
-           // Nếu là tin nhắn đầu tiên, sau khi nhận bot message,
-           // logic trong ChatInput đã xử lý tạo conversation và lưu messages.
-           // Ở đây, chúng ta cần đảm bảo UI được cập nhật chính xác.
-           // Nếu conversation mới được tạo thành công trong ChatInput,
-           // ChatInput đã gọi addConversation và setSelectedConversationId trong context.
-           // useEffect(..., [fetchedMessages]) sẽ lo việc load messages của conversation mới.
-
       } catch (error) {
            console.error("Error processing bot response:", error);
            toast.error("Failed to process bot response.");

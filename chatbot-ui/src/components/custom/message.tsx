@@ -93,7 +93,6 @@ import { MessageActions } from '@/components/custom/actions'; // Giả định �
 
 // Sử dụng ApiMessage interface
 export const PreviewMessage = ({ message }: { message: ApiMessage; }) => {
-  console.log("Rendering PreviewMessage:", message);
 
   const isUser = message.sender === 'user';
   const isAssistant = message.sender === 'bot'; // Sử dụng 'bot' theo cấu trúc API bạn cung cấp
@@ -169,7 +168,6 @@ export const PreviewMessage = ({ message }: { message: ApiMessage; }) => {
 
 // Cập nhật ThinkingMessage tương tự để nó cũng căn trái
 export const ThinkingMessage = ({ content }: { content?: string }) => {
-  console.log("Rendering ThinkingMessage with content:", content);
   // Thinking message thường được coi như của assistant/bot
 
   return (

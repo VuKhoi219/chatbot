@@ -29,8 +29,9 @@ export function Chat() {
 
   const [displayedMessages, setDisplayedMessages] = useState<ApiMessage[]>([]);
   const [question, setQuestion] = useState<string>("");
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
-  const [rightSidebarOpen, setRightSidebarOpen] = useState(true);
+  // 👉 Ban đầu set false nếu là màn hình nhỏ
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(() => window.innerWidth >= 768);
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [currentMood, setCurrentMood] = useState<number>(0);
   const [isBotThinking, setIsBotThinking] = useState<boolean>(false);
 
@@ -51,7 +52,20 @@ export function Chat() {
       setDisplayedMessages([]);
     }
   }, [fetchedMessages, selectedConversationId]);
-
+  useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setLeftSidebarOpen(false);
+          setRightSidebarOpen(false);
+        } else {
+          setLeftSidebarOpen(true);
+          setRightSidebarOpen(true);
+        }
+      };
+      handleResize(); // chạy lần đầu
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
   useEffect(() => {
     if (selectedConversation && selectedConversation.mood_before !== undefined) {
       setCurrentMood(selectedConversation.mood_before);

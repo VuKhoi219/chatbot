@@ -1,264 +1,4 @@
-// import { Textarea } from "../ui/textarea";
-// import { cx } from 'classix';
-// import { Button } from "../ui/button";
-// import { ArrowUpIcon } from "./icons"
-// import { toast } from 'sonner';
-// import { motion } from 'framer-motion';
-// import { useState, useCallback } from 'react';
-// import { useNewMessageBot } from '../../hooks/useNewMessage';
-// import { useNewTitle } from '../../hooks/useNewTitle';
-// import { useCreateMessage } from "@/hooks/useCreateMessage";
-// import { useCreateTitle } from "@/hooks/useCreateTitle";
 
-// interface ChatInputProps {
-//   question: string;
-//   setQuestion: (question: string) => void;
-//   onSubmit: (text?: string) => void;
-//   isLoading: boolean;
-//   onMessageReceived?: (message: any) => void;
-//   onTitleCreated?: (title: string, mood: number) => void;
-//   onError?: (error: string) => void;
-//   isFirstMessage?: boolean;
-// }
-
-// const suggestedActions = [
-//   {
-//     title: 'How is the weather',
-//     label: 'in Vienna?',
-//     action: 'How is the weather in Vienna today?',
-//   },
-//   {
-//     title: 'Tell me a fun fact',
-//     label: 'about pandas',
-//     action: 'Tell me an interesting fact about pandas',
-//   },
-// ];
-
-// export const ChatInput = ({
-//   question,
-//   setQuestion,
-//   onSubmit,
-//   isLoading,
-//   isFirstMessage = true,
-//   onMessageReceived,
-//   onTitleCreated,
-//   onError
-// }: ChatInputProps) => {
-//   const [showSuggestions, setShowSuggestions] = useState(true);
-
-//   // Khởi tạo các hook cần thiết
-//   const newMessageBot = useNewMessageBot();
-//   const newTitle = useNewTitle();
-//   const createMessage = useCreateMessage();
-//   const createTitle = useCreateTitle();
-
-//   const [conversationId, setConversationId] = useState<string | null>(null); // State để lưu conversationId
-
-//   const combinedLoading = newMessageBot.loading || newTitle.loading || createTitle.isSubmitting || createMessage.isSubmitting || isLoading;
-
-//   const handleSubmit = useCallback(async (text?: string) => {
-//     const messageText = text || question;
-//     if (!messageText.trim()) {
-//       toast.error('Please enter a message');
-//       return;
-//     }
-
-//     try {
-//       setShowSuggestions(false);
-//       onSubmit(messageText); // Gọi onSubmit để cập nhật giao diện (nếu cần)
-//       setQuestion(''); // Xóa nội dung trong textarea
-
-//       // Xử lý tin nhắn đầu tiên (tạo title)
-//       if (isFirstMessage) {
-//         console.log("Processing first message...");
-
-//         // 1. Tạo title bằng useNewTitle
-//         // const titleData = { //Đã xoá
-//         //   title: "Tâm trạng hiện tại",
-//         //   mood_before: 9
-//         // };
-//         const newTitleResponse = await newTitle.createTitle({ message: messageText }); //Sửa ở đây
-
-//         if (newTitleResponse) {
-//           console.log("newTitleResponse:", newTitleResponse);
-
-//           // 2. Lưu title vào database bằng useCreateTitle
-//           const createTitlePayload = {
-//             title: newTitleResponse.title, // Sửa ở đây
-//             mood_before: newTitleResponse.mood_before // Sửa ở đây
-//           };
-
-//           const createTitleResponse = await createTitle.submitTitle(createTitlePayload);
-
-//           if (createTitleResponse && createTitleResponse.data) {
-//             console.log("createTitleResponse:", createTitleResponse);
-//             const newConversationId = createTitleResponse.data._id;
-//             setConversationId(newConversationId); // Lưu conversationId vào state
-
-//             onTitleCreated?.(createTitleResponse.data.title, createTitleResponse.data.mood_before); // Gọi callback để cập nhật UI
-
-//             // 3. Gửi tin nhắn của người dùng bằng useNewMessageBot
-//             const userMessageData = { message: messageText };
-//             const newMessageBotResponse = await newMessageBot.sendMessage(userMessageData);
-
-//             if (newMessageBotResponse && newMessageBotResponse.message) {
-//               console.log("newMessageBotResponse:", newMessageBotResponse);
-
-//               // 4. Lưu tin nhắn của người dùng vào database bằng useCreateMessage
-//               const createUserMessagePayload = {
-//                 conversation_id: newConversationId,
-//                 content: messageText,
-//                 sender: "user"
-//               };
-//               await createMessage.submitMessage(createUserMessagePayload);
-
-//               // 5. Lưu tin nhắn của bot vào database bằng useCreateMessage (nếu có phản hồi từ bot)
-
-//                 const botMessageContent = JSON.parse(newMessageBotResponse.message).content;
-//                 const createBotMessagePayload = {
-//                   conversation_id: newConversationId,
-//                   content: botMessageContent,
-//                   sender: "bot"
-//                 };
-//                 await createMessage.submitMessage(createBotMessagePayload);
-
-//                 onMessageReceived?.(newMessageBotResponse); // Gọi callback để hiển thị tin nhắn
-
-//             } else {
-//               toast.error("Failed to get response from bot.");
-//               onError?.("Failed to get response from bot.");
-//             }
-//           } else {
-//             toast.error("Failed to create title in database.");
-//             onError?.("Failed to create title in database.");
-//           }
-//         } else {
-//           toast.error("Failed to create title.");
-//           onError?.("Failed to create title.");
-//         }
-//       }
-//       // Xử lý các tin nhắn tiếp theo
-//       else {
-//         console.log("Processing subsequent message...");
-
-//         // 1. Gửi tin nhắn của người dùng bằng useNewMessageBot
-//         const userMessageData = { message: messageText };
-//         const newMessageBotResponse = await newMessageBot.sendMessage(userMessageData);
-
-//         if (newMessageBotResponse && newMessageBotResponse.message) {
-//           console.log("newMessageBotResponse:", newMessageBotResponse);
-
-//           // 2. Lưu tin nhắn của người dùng vào database bằng useCreateMessage
-//           const createUserMessagePayload = {
-//             conversation_id: conversationId,
-//             content: messageText,
-//             sender: "user"
-//           };
-//           await createMessage.submitMessage(createUserMessagePayload);
-
-//           // 3. Lưu tin nhắn của bot vào database bằng useCreateMessage (nếu có phản hồi từ bot)
-
-//             const botMessageContent = JSON.parse(newMessageBotResponse.message).content;
-//             const createBotMessagePayload = {
-//               conversation_id: conversationId,
-//               content: botMessageContent,
-//               sender: "bot"
-//             };
-//             await createMessage.submitMessage(createBotMessagePayload);
-
-//             onMessageReceived?.(newMessageBotResponse); // Gọi callback để hiển thị tin nhắn
-
-//         } else {
-//           toast.error("Failed to get response from bot.");
-//           onError?.("Failed to get response from bot.");
-//         }
-//       }
-//     } catch (error) {
-//       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-//       toast.error(errorMessage);
-//       onError?.(errorMessage);
-//     }
-//   }, [question, newMessageBot, newTitle, createTitle, createMessage, isFirstMessage, onSubmit, onMessageReceived, onTitleCreated, onError, setQuestion, conversationId]);
-
-//   return (
-//     <div className="relative w-full flex flex-col gap-4">
-//       {showSuggestions && (
-//         <div className="hidden md:grid sm:grid-cols-2 gap-2 w-full">
-//           {suggestedActions.map((suggestedAction, index) => (
-//             <motion.div
-//               initial={{ opacity: 0, y: 20 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               exit={{ opacity: 0, y: 20 }}
-//               transition={{ delay: 0.05 * index }}
-//               key={index}
-//               className={index > 1 ? 'hidden sm:block' : 'block'}
-//             >
-//               <Button
-//                 variant="ghost"
-//                 onClick={() => {
-//                   const text = suggestedAction.action;
-//                   handleSubmit(text);
-//                 }}
-//                 disabled={combinedLoading}
-//                 className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
-//               >
-//                 <span className="font-medium">{suggestedAction.title}</span>
-//                 <span className="text-muted-foreground">{suggestedAction.label}</span>
-//               </Button>
-//             </motion.div>
-//           ))}
-//         </div>
-//       )}
-
-//       <input
-//         type="file"
-//         className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
-//         multiple
-//         tabIndex={-1}
-//       />
-
-//       <Textarea
-//         placeholder="Send a message..."
-//         className={cx(
-//           'min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-xl text-base bg-muted',
-//         )}
-//         value={question}
-//         onChange={(e) => setQuestion(e.target.value)}
-//         onKeyDown={(event) => {
-//           if (event.key === 'Enter' && !event.shiftKey) {
-//             event.preventDefault();
-//             if (combinedLoading) {
-//               toast.error('Please wait for the model to finish its response!');
-//             } else {
-//               handleSubmit();
-//             }
-//           }
-//         }}
-//         rows={3}
-//         autoFocus
-//         disabled={combinedLoading}
-//       />
-
-//       <Button
-//         className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 border dark:border-zinc-600"
-//         onClick={() => handleSubmit(question)}
-//         disabled={question.length === 0 || combinedLoading}
-//       >
-//         {combinedLoading ? (
-//           <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-//         ) : (
-//           <ArrowUpIcon size={14} />
-//         )}
-//       </Button>
-
-//       {combinedLoading && (
-//         <div className="absolute -top-8 left-0 text-xs text-muted-foreground">
-//           {isFirstMessage ? 'Creating title and sending message...' : 'Sending message...'}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
 import { Textarea } from "../ui/textarea";
 import { cx } from 'classix';
 import { Button } from "../ui/button";
@@ -344,13 +84,11 @@ export const ChatInput = ({
 
       // Xử lý tin nhắn đầu tiên (tạo title và conversation mới)
       if (isFirstMessage) {
-        console.log("Processing first message...");
 
         // 1. Tạo title bằng useNewTitle
         const newTitleResponse = await newTitle.createTitle({ message: messageText });
 
         if (newTitleResponse && newTitleResponse.title && newTitleResponse.mood_before !== undefined) {
-          console.log("newTitleResponse:", newTitleResponse);
 
           // 2. Lưu title vào database bằng useCreateTitle
           const createTitlePayload = {
@@ -363,7 +101,6 @@ export const ChatInput = ({
           const createTitleResponse = await createTitle.submitTitle(createTitlePayload);
 
           if (createTitleResponse && createTitleResponse.data && createTitleResponse.data._id) {
-            console.log("createTitleResponse:", createTitleResponse);
             const newConversationId = createTitleResponse.data._id;
             currentConversationId = newConversationId; // Cập nhật ID cuộc trò chuyện hiện tại
 
@@ -412,7 +149,6 @@ export const ChatInput = ({
       const newMessageBotResponse = await newMessageBot.sendMessage({ message: messageText, conversation_id: currentConversationId }); // Gửi cả ID cho bot nếu cần context
 
       if (newMessageBotResponse && newMessageBotResponse.message) {
-        console.log("newMessageBotResponse:", newMessageBotResponse);
 
         // 5. Parse và lưu tin nhắn của bot vào database bằng useCreateMessage
         try {

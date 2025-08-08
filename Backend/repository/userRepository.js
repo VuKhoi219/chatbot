@@ -61,7 +61,6 @@ class UserRepository {
             };
 
         } catch (error) {
-            console.log(error);
             return {
                 success: false,
                 message: 'Lỗi khi đăng nhập',

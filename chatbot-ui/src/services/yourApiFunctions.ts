@@ -77,7 +77,7 @@ export const newTitleAPI = async (messageData: Omit<Message, 'id'>): Promise<Api
   }
 }
 
-export const newMessageBotAPI = async (messageData: Omit<Message, 'id'>): Promise<ApiResponseMessageBotObject> => {
+export const newMessageBotAPI = async (messageData: { message: string; conversation_id: string }): Promise<ApiResponseMessageBotObject> => {
   try {
     const response = await apiClient.post<ApiResponseMessageBotObject>('/chat/message', messageData);
     return response.data;

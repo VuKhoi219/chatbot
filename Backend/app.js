@@ -32,10 +32,10 @@ app.use("/api/surveysAndFeedback", surveysAndFeedbackRoutes);
 app.use("/music", express.static(path.join(__dirname, "../uploadMusic")));
 app.use("/podcast", express.static(path.join(__dirname, "../uploadPodcast")));
 
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
-
+// Trong backend
+app.use((req, res, next) => {
+  next();
+});
 app.get("/", (req, res) => {
   res.send("hello");
 });

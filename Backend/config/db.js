@@ -10,9 +10,7 @@ const connectDB = async () => {
       socketTimeoutMS: 45000, // Tăng thời gian timeout của socket
       connectTimeoutMS: 10000, // Thời gian kết nối tối đa
     });
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
     process.exit(1); // Kết thúc ứng dụng nếu không kết nối được
   }
 };

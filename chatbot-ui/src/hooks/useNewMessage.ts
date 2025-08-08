@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ApiResponseMessageBotObject, Message } from '../services/type';
+import { ApiResponseMessageBotObject, MessageBotRequest } from '../services/type';
 import { newMessageBotAPI } from '../services/yourApiFunctions';
 
 // Hook state interface
@@ -11,7 +11,7 @@ interface UseNewMessageBotState {
 
 // Hook return type
 interface UseNewMessageBotReturn extends UseNewMessageBotState {
-    sendMessage: (messageData: Omit<Message, 'id'>) => Promise<ApiResponseMessageBotObject>;
+    sendMessage: (messageData: MessageBotRequest) => Promise<ApiResponseMessageBotObject>;
     reset: () => void;
 }
 
@@ -22,7 +22,7 @@ export const useNewMessageBot = (): UseNewMessageBotReturn => {
         error: null,
     });
 
-    const sendMessage = useCallback(async (messageData: Omit<Message, 'id'>) => {
+    const sendMessage = useCallback(async (messageData: MessageBotRequest) => {
         setState(prev => ({
             ...prev,
             loading: true,
@@ -30,9 +30,7 @@ export const useNewMessageBot = (): UseNewMessageBotReturn => {
         }));
 
         try {
-            console.log("Sending message to API:", messageData); // Log dữ liệu gửi đi
             const response = await newMessageBotAPI(messageData);
-            console.log("API response in useNewMessageBot:", response); // Log dữ liệu API
             
             setState({
                 data: response,
@@ -93,13 +91,11 @@ export const useNewMessageBotAdvanced = (
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
     const sendMessageWithRetry = async (
-        messageData: Omit<Message, 'id'>,
+        messageData: MessageBotRequest,
         retryCount = 0
     ): Promise<ApiResponseMessageBotObject> => {
         try {
-            console.log(`Attempt ${retryCount + 1} to send message:`, messageData);
             const response = await newMessageBotAPI(messageData);
-            console.log("API response in useNewMessageBotAdvanced:", response);
             return response;
         } catch (error) {
             if (retryCount < maxRetries) {
@@ -111,7 +107,7 @@ export const useNewMessageBotAdvanced = (
         }
     };
 
-    const sendMessage = useCallback(async (messageData: Omit<Message, 'id'>) => {
+    const sendMessage = useCallback(async (messageData: MessageBotRequest) => {
         const cacheKey = JSON.stringify(messageData);
         
         // Check cache first
